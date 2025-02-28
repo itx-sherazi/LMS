@@ -173,6 +173,7 @@ export const initialSignUpFormData ={
       freePreview: false,
       public_id: "",
     },
+  
   ];
   
   export const sortOptions = [
