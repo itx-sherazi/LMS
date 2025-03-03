@@ -7,6 +7,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import dbconnect from "./config/dbconfig.js";
 import authRoutes from "./Routes/UserRoutes.js";
+import instructorCourseRoute from "./Routes/CourseRoutes.js";
 
 import mediaRoutes from "./Routes/Media-Routes.js";
 const app = express();
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: true })); // ✅ URL Encoded Data Support
 
 app.use("/auth",authRoutes);
 app.use("/media",mediaRoutes);
+app.use("/instructor/course",instructorCourseRoute);
 
 
 

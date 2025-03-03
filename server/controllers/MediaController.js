@@ -46,3 +46,18 @@ export const deleteFile = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
+ export const bulkUploadHandler = async (req, res) => {
+  try {
+    const uploadPromises = req.files.map((fileItem) =>
+      uploadMediaToCloudinary(fileItem.path)
+    );
+    const result = await Promise.all(uploadPromises);
+    res.status(200).json({ success: true, data: result });
+  } catch (error) {
+    console.error("Error in bulk uploading files:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+

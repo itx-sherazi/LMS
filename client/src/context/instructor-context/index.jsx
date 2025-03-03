@@ -11,6 +11,9 @@ const [courseLandingFormData, setCourseLandingFormData] = useState(courseLanding
 const [courseCurriculumFormData, setCourseCurriculumFormData]=useState(courseCurriculumInitialFormData)
 const [mediaUploadProgress, setMediaUploadProgress]=useState(false)
 const [mediaUploadProgressPercentage, setMediaUploadProgressPercentage]=useState(0)
+const [instructorCoursesList, setInstructorCoursesList]=useState([])
+const [currentEditedCourseId, setCurrentEditedCourseId]=useState(null)
+
     return <InstructorContext.Provider
     value={{
         courseLandingFormData,
@@ -21,6 +24,10 @@ const [mediaUploadProgressPercentage, setMediaUploadProgressPercentage]=useState
         setMediaUploadProgress,
         mediaUploadProgressPercentage,
         setMediaUploadProgressPercentage,
+        instructorCoursesList,
+        setInstructorCoursesList,
+        currentEditedCourseId,
+        setCurrentEditedCourseId,
     }}
     
     

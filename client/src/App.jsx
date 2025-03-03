@@ -23,6 +23,7 @@ function App() {
       <Route path="/auth" element={<RouteGuard element={<AuthPage />} authenticated={auth?.authenticate} user={auth?.user} />} />
       <Route path="/instructor" element={<RouteGuard element={<InstructorDashboardPage />} authenticated={auth?.authenticate} user={auth?.user} />} />
       <Route path="/instructor/creat-new-course" element={<RouteGuard element={<AddNewCoursePage/>} authenticated={auth?.authenticate} user={auth?.user} />} />
+      <Route path="/instructor/edit-course/:courseId" element={<RouteGuard element={<AddNewCoursePage/>} authenticated={auth?.authenticate} user={auth?.user} />} />
       <Route path="/" element={<RouteGuard element={<StudentViewCommonLayout />} authenticated={auth?.authenticate} user={auth?.user} />} />
       <Route path="/home" element={<StudentHomePage />} />
       <Route path="*" element={<NotFounPage/>} />

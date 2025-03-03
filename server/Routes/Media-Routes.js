@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from "multer";
-import { uploadFile, deleteFile } from '../controllers/MediaController.js';
+import { uploadFile, deleteFile, bulkUploadHandler } from '../controllers/MediaController.js';
 
 const router = express.Router();
 
@@ -17,5 +17,7 @@ const upload = multer({ storage: storage });
 
 router.post('/upload', upload.single('file'), uploadFile);
 router.delete('/delete/:id', deleteFile);
+
+router.post("/bulk-upload", upload.array("files", 10), bulkUploadHandler);
 
 export default router;
