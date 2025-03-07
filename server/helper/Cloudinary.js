@@ -28,11 +28,12 @@ export const uploadMediaToCloudinary = async (filePath) => {
 
 export const deleteMediaToCloudinary = async (publicId) => {
     try {
-
-        const result = await cloudinary.uploader.destroy(publicId);
-        return result;
-    } catch (error) {
-        console.error("Cloudinary Delete Error:", error.message);
-        return null;
-    }
+        await cloudinary.uploader.destroy(publicId);
+      } catch (error) {
+        console.log(error);
+        throw new Error("failed to delete assest from cloudinary");
+      }
 };
+
+
+

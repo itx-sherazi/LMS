@@ -91,7 +91,6 @@ function AddNewCoursePage() {
       
               return acc;
             }, {});
-            console.log(setCourseFormData)
             setCourseLandingFormData(setCourseFormData)
             setCourseCurriculumFormData(response?.data?.curriculum)
 

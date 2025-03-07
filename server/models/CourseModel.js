@@ -13,6 +13,8 @@ const CourseSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
   title: { type: String,  },
   category: { type: String,  },
+  rating:{ type: Number, default: 2},
+  isNew:{ type: Boolean, default: true},
   level: { type: String,   },
   primaryLanguage: { type: String,  },
   subtitle: { type: String },

@@ -15,12 +15,10 @@ const authenticate = (req, res, next) => {
         }
 
         if (!token) {
-            console.log(" Token Missing");
             return res.status(401).json({ success: false, message: "Unauthorized, token missing" });
         }
 
         const payload = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(" Decoded Payload:", payload);
 
         req.user = payload;
         next();

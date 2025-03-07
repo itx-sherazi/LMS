@@ -9,7 +9,6 @@ import { useContext } from "react";
 
 function CourseSetting() {
       const {courseLandingFormData, setCourseLandingFormData,mediaUploadProgress, setMediaUploadProgress,mediaUploadProgressPercentage, setMediaUploadProgressPercentage}=useContext(InstructorContext)
-console.log(courseLandingFormData)
       async function handleImageUploadChange(event){
 const selectedImage = event.target.files[0]
 if(selectedImage){

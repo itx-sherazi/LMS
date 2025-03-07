@@ -14,7 +14,6 @@ import { useContext, useEffect, useRef } from "react";
 function CourseCurriculum() {
     const { courseCurriculumFormData, setCourseCurriculumFormData,mediaUploadProgress, setMediaUploadProgress,mediaUploadProgressPercentage, setMediaUploadProgressPercentage} = useContext(InstructorContext);
 
-console.log(courseCurriculumFormData)
 const bulkUploadInputRef = useRef(null)
     const handleNewLecture = () => {
         const newLecture = {
@@ -37,7 +36,6 @@ const bulkUploadInputRef = useRef(null)
         };
 
         setCourseCurriculumFormData(copyCourseCurriculumFormData);
-        console.log("Updated state:", copyCourseCurriculumFormData);
     };
     
     const handleFreePreviewChange = (currentValue, currentIndex) => {
@@ -70,7 +68,7 @@ const bulkUploadInputRef = useRef(null)
                     let copyCourseCurriculumFormData=[...courseCurriculumFormData]
                     copyCourseCurriculumFormData[currentIndex] = {
                        ...copyCourseCurriculumFormData[currentIndex],
-                        videoUrl: response?.data?.secure_url,
+                        videoUrl: response?.data?.url,
                         public_id: response?.data?.public_id
                     };
                     setCourseCurriculumFormData(copyCourseCurriculumFormData);
@@ -106,13 +104,23 @@ const bulkUploadInputRef = useRef(null)
             public_id: ''
         }
         setCourseCurriculumFormData(copyCourseCurriculumFormData) 
-    console.log(copyCourseCurriculumFormData)
 
        }
     }
     function handleOpenBulkUploadDialog (){
         bulkUploadInputRef.current.click();
     }
+    function areAllCourseCurriculumFormDataObjectEmpty(arr) {
+        return arr.every(obj => {
+            return Object.entries(obj).every(([key, value]) => {
+                if (typeof value === 'boolean') {
+                    return true;
+                }
+                return value === '';
+            });
+        });
+    }
+    
 
      async function handleMediaBulkUpload (event){
         const selectedFiles = Array.from(event.target.files)
@@ -122,18 +130,47 @@ try {
     setMediaUploadProgress(true);
     
     const response = await mediaBulkUploadService(bulkFormData,setMediaUploadProgressPercentage);
-    console.log(response ,"bulk")
+    if(response?.success){
+        let copyCourseCurriculumFormData= areAllCourseCurriculumFormDataObjectEmpty(courseCurriculumFormData)
+        ? [] : [...courseCurriculumFormData]
+        copyCourseCurriculumFormData =[
+            ...copyCourseCurriculumFormData,
+            ...response?.data.map((item,index)=>({
+                videoUrl : item?.url,
+                public_id : item.public_id,
+                title:` Lecture ${copyCourseCurriculumFormData.length + (index+1)}`,
+                freePreview: false
+            }))
+        ]
+        setCourseCurriculumFormData(copyCourseCurriculumFormData);
+        setMediaUploadProgress(false);
+    }
     
 } catch (error) {
     console.error("�� Error in uploading file:", error);
     setMediaUploadProgress(false);
     
 }
-        console.log(selectedFiles,"llllllllllllllllllllllllllllll")
 
      }
+  async function handleDeleteLecture(currentIndex) {
+    let cpyCourseCurriculumFormData = [...courseCurriculumFormData];
+    const getCurrentSelectedVideoPublicId =
+      cpyCourseCurriculumFormData[currentIndex].public_id;
+
+    const response = await mediaDeleteService(getCurrentSelectedVideoPublicId);
+
+    if (response?.success) {
+      cpyCourseCurriculumFormData = cpyCourseCurriculumFormData.filter(
+        (_, index) => index !== currentIndex
+      );
+
+      setCourseCurriculumFormData(cpyCourseCurriculumFormData);
+    }
+  }
 
     
+
 
     return (
         <Card>
@@ -203,7 +240,7 @@ try {
                                         height="200px"
                                         />
                                         <Button onClick={()=>handelReplaceVideo(index)}>Replace Video</Button>
-                                        <Button className="bg-red-900">Delete Lecture</Button>
+                                        <Button  onClick={()=>handleDeleteLecture(index)}className="bg-red-900">Delete Lecture</Button>
 
                                     </div>:
                                 <Input type="file" accept="video/*" onChange={(event)=> handleSingleLectureUpload(event,index)} className="mb-4" />

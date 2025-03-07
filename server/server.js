@@ -8,7 +8,10 @@ import dotenv from "dotenv";
 import dbconnect from "./config/dbconfig.js";
 import authRoutes from "./Routes/UserRoutes.js";
 import instructorCourseRoute from "./Routes/CourseRoutes.js";
-
+import studentViewCourseRoute from "./Routes/StudentRoutes.js";
+import stripeRoute from "./Routes/StripeRoute.js";
+import getStudentCoursesRoute from "./Routes/StudentCourseRoute.js";
+import studentCourseProgressRoutes from "./Routes/Course-progress-routes.js"
 import mediaRoutes from "./Routes/Media-Routes.js";
 const app = express();
 dotenv.config();
@@ -33,7 +36,10 @@ app.use(express.urlencoded({ extended: true })); // ✅ URL Encoded Data Support
 app.use("/auth",authRoutes);
 app.use("/media",mediaRoutes);
 app.use("/instructor/course",instructorCourseRoute);
-
+app.use("/student/course",studentViewCourseRoute)
+app.use("/student/order",stripeRoute)
+app.use("/student/courses-bought",getStudentCoursesRoute )
+app.use("/student/course-progress", studentCourseProgressRoutes);
 
 
 /*-- start the server (start)  --*/

@@ -77,4 +77,55 @@ export async function mediaBulkUploadService(formData,onProgressCallback) {
     }
 }
 
+export async function fetchStudentViewCourseListService(query){
+    const { data } = await axiosInstance.get(`/student/course/get?${query}`);
 
+    return data;
+}
+export async function fetchStudentViewDetailsService(courseId){
+    const {data} = await axiosInstance.get(`/student/course/get/${courseId}`)
+    return data;
+}
+
+
+export async function checkCoursePurchaseInfoService(courseId,studentId){
+    const {data} = await axiosInstance.get(`/student/course/purchase-info/${courseId}/${studentId}`)
+    return data;
+}
+export const createPaymentService = async (paymentPayload) => {
+  const response = await axiosInstance.post("/student/order/create", paymentPayload);
+  return response.data;
+};
+export const captureAndFinalizePaymentService = async (sessionId, orderId) => {
+    const response = await axiosInstance.post("/student/order/capture", {
+      sessionId, // ✅ Stripe ke session_id ko bhejna
+      orderId,
+    });
+    return response.data;
+  };
+  
+  export const fetchStudentBoughtCoursesService= async (studentId) => {
+    const {data} = await axiosInstance.get(`/student/courses-bought/get/${studentId}`);
+    return data;
+  };
+
+  export const getCurrentCourseProgressService= async (userId, courseId) => {
+    const {data} = await axiosInstance.get(`/student/course-progress/get/${userId}/${courseId}`);
+    return data;
+  };
+  export const markLectureAsViewedService= async (userId, courseId,lectureId) => {
+    const {data} = await axiosInstance.post(`/student/course-progress/mark-lecture-viewed`,{
+        userId,
+        courseId,
+        lectureId
+    });
+    return data;
+  };
+  export const resestCoursProgressService= async (userId, courseId) => {
+    const {data} = await axiosInstance.post(`/student/course-progress/reset-progress`,{
+        userId,
+        courseId,
+  
+    });
+    return data;
+  };

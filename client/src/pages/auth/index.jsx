@@ -20,6 +20,7 @@ function AuthPage() {
         setActiveTab(newValue);
     };
     
+    
     function checIfSignInFormISValid(){
         return signInFormData && signInFormData.useremail !== '' && signInFormData.password !== ''
     }

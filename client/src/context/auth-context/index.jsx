@@ -55,24 +55,25 @@ export default function AuthProvider({ children }) {
         async function checkAuthUser() {
             try {
                 const { data } = await checkAuthService();
-                if (data.success) {
+        
+        
+                if (data.success && data.user) {
                     setAuth({
                         authenticate: true,
                         user: data.user
                     });
-                    setLoading(false);
                 } else {
                     setAuth({
                         authenticate: false,
                         user: null
                     });
-                    setLoading(false);
                 }
+                setLoading(false);
             } catch (error) {
                 console.error("Auth Check Error:", error);
             }
         }
-    
+        
         useEffect(() => {
             checkAuthUser();
         }, []);

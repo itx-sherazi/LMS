@@ -28,14 +28,13 @@ function InstructorDashboardPage() {
     useEffect(()=>{
       fetchAllCourses()
     }, [])  // Empty dependency array => runs only once
-    
 
   const menuuItems =[
     {
       icon:BarChart,
       label:"Dashboard",
       value:"dashboard",
-      component:<InstructorDashboard/>
+      component:<InstructorDashboard listofCourses={instructorCoursesList}/>
     },
     {
       icon:Book,
@@ -54,7 +53,6 @@ function InstructorDashboardPage() {
   const handleLogout = async () => {
     try {
       const response = await axiosInstance.post("/auth/logout", {}, { withCredentials: true });
-      console.log("Logout Response:", response);
   
       if (response.status === 200) {
         // Local storage clear karo

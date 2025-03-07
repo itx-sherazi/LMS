@@ -7,7 +7,7 @@ import { Maximize, Minimize, Pause, Play, RotateCcw, RotateCw, Volume2, VolumeX 
 import { useCallback } from 'react';
 import { useEffect } from 'react';
 
-function VideoPlayer({width ='100%',height='100%',url}) {
+function VideoPlayer({width ='100%',height='100%',url, onProgressUpdate,progressData}) {
      const [playing, setPlaying] = useState(false);
      const [muted, setMuted] = useState(false);
      const [volume, setVolume] = useState(0.5);
@@ -96,6 +96,14 @@ function handleVolumeChange(newValue) {
     clearTimeout(controlsTimeoutRef.current);
     controlsTimeoutRef.current = setTimeout(() => setShowControls(false), 3000);
   }
+  useEffect(() => {
+    if (played === 1) {
+      onProgressUpdate({
+        ...progressData,
+        progressValue: played,
+      });
+    }
+  }, [played]);
     return ( 
         <div ref={playerContainerRef}
         className={`relative bg-gray-900 rounded-lg overflow-hidden shadow-2xl transition-all duration-300 ease-in-out

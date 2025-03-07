@@ -52,31 +52,12 @@ export const getCourseDetails =async (req,res)=>{
 }
 
 
-// export const updateCourseById =async (req,res)=>{
 
-//     try {
-//         const {id } = req.params
-//         const updatedCourseData = req.body
-//         const updatedCourse = await Courses.findByIdAndUpdate(id, updatedCourseData, {new: true})
-//         if(!updatedCourse){
-//             return res.status(404).json({ success: false, message: 'Course not found'})
-//         }
-//         res.status(200).json({ success: true, data: updatedCourse})
-        
-//     } catch (error) {
-
-//         console.error("Error in adding new course:", error);
-//         res.status(500).json({ success: false, message: error.message });
-        
-//     }
-// }
 export const updateCourseById = async (req, res) => {
     try {
         const { id } = req.params;
         const updatedCourseData = req.body;
 
-        console.log("Updating Course with ID:", id);  // 🔍 Debugging
-        console.log("New Data Received:", updatedCourseData);  // 🔍 Debugging
 
         const updatedCourse = await Courses.findByIdAndUpdate(id, updatedCourseData, { new: true });
 
@@ -84,7 +65,6 @@ export const updateCourseById = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Course not found' });
         }
 
-        console.log("Updated Course:", updatedCourse);  // 🔍 Debugging
         res.status(200).json({ success: true, data: updatedCourse });
 
     } catch (error) {

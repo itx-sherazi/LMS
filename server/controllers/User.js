@@ -70,15 +70,12 @@ export const loginUser = async (req, res) => {
         const checkUser = await User.findOne({ useremail });
 
         if (!checkUser) {
-            console.log("User not found in database.");
             return res.status(400).json({ success: false, message: 'User not found' });
         }
 
         const isPasswordMatch = await bcrypt.compare(password, checkUser.password);
-        console.log("Password Match:", isPasswordMatch); 
 
         if (!isPasswordMatch) {
-            console.log("Incorrect Password");
             return res.status(400).json({ success: false, message: 'Incorrect password' });
         }
 
@@ -127,7 +124,6 @@ export const logout = async (req, res) => {
             sameSite: 'Lax'
         });
     
-        console.log("Logout API hit - Cookie removed");
         res.json({ success: true, message: "Logged out successfully" })
         
     } catch (error) {
